@@ -5,22 +5,32 @@
   <title>Kane Complain - Audio Player</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Style to center the audio player and make it responsive */
+    /* Style to center the content and make it responsive */
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       background-color: #f0f0f0;
+    }
+    img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
     }
     audio {
       width: 80%;
       max-width: 400px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <!-- Image at the top -->
+  <img src="kanco_coin.jpg" alt="MemeCoin Logo">
+
   <!-- Audio player with controls and autoplay -->
   <audio controls autoplay>
     <source src="Kane_Complain.mp3" type="audio/mpeg">
