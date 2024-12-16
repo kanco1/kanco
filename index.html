@@ -1,40 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Kane Complain - Audio Player</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    /* Style to center the content and make it responsive */
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
-    }
-    img {
-      width: 400px;
-      height: 400px;
-      object-fit: cover;
-    }
-    audio {
-      width: 80%;
-      max-width: 400px;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>KaneComplain ($KANCO)</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    >
+
+    <style>
+        /* ------------------------------
+           Global Styles
+        -------------------------------*/
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            color: #000000;
+            line-height: 1.5;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img, svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p {
+            margin: 0 0 1em 0;
+        }
+
+        /* 12-column responsive grid */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -16px;
+            margin-right: -16px;
+        }
+
+        .col {
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        [class*="col-"] {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .col-6 { width: 50%; }
+            .col-4 { width: 33.3333%; }
+            .col-3 { width: 25%; }
+            .col-8 { width: 66.6666%; }
+            .col-12 { width: 100%; }
+        }
+
+        /* Color Palette:
+           Black (#000000), White (#FFFFFF),
+           Grey: Light (#F5F5F5), Medium (#C0C0C0), Dark (#505050)
+        */
+
+        /* ------------------------------
+           Header & Navigation
+        -------------------------------*/
+        header {
+            position: sticky;
+    		top: 0;
+    		z-index: 999;
+    		background: #FFFFFF;
+    		border-bottom: 1px solid #C0C0C0;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+
+        .nav-left img {
+            height: 50px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-right a {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .player-container {
+            background: #F5F5F5;
+            padding: 8px 0;
+            text-align: center;
+        }
+
+        .player-container audio {
+            outline: none;
+        }
+
+        /* ------------------------------
+           Hero Section
+        -------------------------------*/
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .hero .logo {
+            margin: 24px 0;
+            max-width: 200px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* ------------------------------
+           Tokenomics
+        -------------------------------*/
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 32px;
+            font-weight: 700;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .tokenomics ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tokenomics li {
+            margin-bottom: 16px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .tokenomics li:before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        /* ------------------------------
+           DCA Strategy
+        -------------------------------*/
+        .dca {
+            background: #F5F5F5;
+        }
+
+        .dca-text {
+            margin-bottom: 32px;
+        }
+
+        .dca-illustration {
+            text-align: center;
+        }
+
+        .dca-illustration svg {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .dca-illustration-desc {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        /* ------------------------------
+           Roadmap
+        -------------------------------*/
+        .roadmap {
+            position: relative;
+        }
+
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            background: #C0C0C0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .roadmap-item {
+            position: relative;
+            width: 100%;
+            margin-bottom: 80px;
+        }
+
+        .roadmap-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .roadmap-marker {
+            background: #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .roadmap-content {
+            background: #FFFFFF;
+            padding: 16px;
+            border: 1px solid #C0C0C0;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* ------------------------------
+           Socials & CTA
+        -------------------------------*/
+        .socials {
+            text-align: center;
+        }
+
+        .socials h2 {
+            margin-bottom: 32px;
+        }
+
+        .social-links {
+            display: inline-flex;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .social-links a img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .cta-buttons a {
+            padding: 12px 24px;
+            border: 2px solid #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 18px;
+            background: #FFFFFF;
+        }
+
+        /* ------------------------------
+           Footer
+        -------------------------------*/
+        footer {
+            background: #F5F5F5;
+            border-top: 1px solid #C0C0C0;
+            padding: 32px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        footer .footer-icons a img {
+            width: 20px;
+            height: 20px;
+        }
+
+        footer p {
+            color: #505050;
+            margin: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .nav-right {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Image at the top -->
-  <img src="kanco_coin.webp" alt="MemeCoin Logo">
 
-  <!-- Audio player with controls and autoplay -->
-  <audio controls autoplay>
-    <source src="Kane_Complain_jingle.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <div class="nav">
+                <div class="nav-left">
+                    <!-- Logo -->
+                    <img src="kanco_coin.webp" alt="KaneComplain Logo" />
+                </div>
+                <div class="nav-right">
+                    <a href="https://stx.city/bonding-curve/SP3FA62NRKY41QZEXB787Y53XVSRV7N3TJ3F8GZ45.kanecomplain-stxcity-dex/SP3FA62NRKY41QZEXB787Y53XVSRV7N3TJ3F8GZ45.kanecomplain-stxcity/SP2BN9JN4WEG02QYVX5Y21VMB2JWV3W0KNHPH9R4P" target="_blank">Buy KANCO</a>
+                    <a href="#jingle">Listen to Jingle</a>
+                    <a href="kanecomplain_whitepaper_v1.pdf" download>Whitepaper</a>
+                    <!-- Use locally stored SVG icons -->
+                    <a href="https://x.com/kancodotstx" target="_blank" aria-label="X (Twitter)">
+                        <img src="x.svg" alt="X (Twitter)" />
+                    </a>
+                    <a href="https://t.me/KaneComplain" target="_blank" aria-label="Telegram">
+                        <img src="telegram.svg" alt="Telegram" />
+                    </a>
+                    <a href="https://discord.gg/gH7NKBVZ" target="_blank" aria-label="Discord">
+                        <img src="discord.svg" alt="Discord" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="player-container" id="jingle">
+            <audio controls>
+                <source src="Kane_Complain_jingle.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>When Kane complain, imminent is the gain!</h1>
+            <img class="logo" src="kanco_coin.webp" alt="KaneComplain Logo" />
+            <p>“Wen Kane cry, price fly.”</p>
+        </div>
+    </section>
+
+    <!-- Tokenomics -->
+    <section class="tokenomics" id="whitepaper">
+        <div class="container">
+            <h2 class="section-title">Tokenomics</h2>
+            <ul>
+                <li>Total Supply: 100,000,000,000 $KANCO</li>
+                <li>Bonding-curve launch via stx.city (2,000 STX target)</li>
+                <li>~3% allocation for team & marketing</li>
+                <li>SIP010 token on Stacks blockchain</li>
+            </ul>
+        </div>
+    </section>
+
+	<!-- DCA Strategy -->
+	<section class="dca">
+    <div class="container">
+        <h2 class="section-title">DCA Strategy (Dollar-Complaint Accumulation)</h2>
+        <div class="row">
+            <div class="col col-12 col-6">
+                <div class="dca-text">
+                    <p>Each time someone complains about Bitcoin, Stacks, or $KANCO, members buy $1 worth of $KANCO. Negativity becomes fuel for growth!</p>
+                </div>
+            </div>
+            <div class="col col-12 col-6 dca-illustration" style="text-align:center;">
+                <!-- Replace this with your custom black-and-white PNG diagram -->
+                <img src="dca_diagram_larger.png" alt="DCA Strategy Diagram" style="max-width:800px; width:100%;">
+                <div class="dca-illustration-desc">
+                    <p><strong>C's represent complaints</strong></p>
+                    <p><strong>$'s represent Micro-Purchases</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	</section>
+
+    <!-- Roadmap -->
+    <section class="roadmap">
+        <div class="container">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="roadmap-line"></div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker"></div>
+                <div class="roadmap-content">
+                    <h3>Phase 1: Launch & Foundation</h3>
+                    <p>Token deployment, bonding-curve DEX launch, community building.</p>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker"></div>
+                <div class="roadmap-content">
+                    <h3>Phase 2: Growth & Engagement</h3>
+                    <p>DEX listings, staking, and NFT initiatives.</p>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker"></div>
+                <div class="roadmap-content">
+                    <h3>Phase 3: Partnerships & Utility</h3>
+                    <p>Collaborations, tipping bots, charity drives.</p>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div class="roadmap-marker"></div>
+                <div class="roadmap-content">
+                    <h3>Phase 4: Governance & Sustainability</h3>
+                    <p>Governance features and community-driven future.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Socials & CTA -->
+    <section class="socials">
+        <div class="container">
+            <h2 class="section-title">Join the Community</h2>
+            <div class="social-links">
+                <a href="https://x.com/kancodotstx" target="_blank" aria-label="X (Twitter)">
+                    <img src="x.svg" alt="X (Twitter)" />
+                </a>
+                <a href="https://t.me/KaneComplain" target="_blank" aria-label="Telegram">
+                    <img src="telegram.svg" alt="Telegram" />
+                </a>
+                <a href="https://discord.gg/gH7NKBVZ" target="_blank" aria-label="Discord">
+                    <img src="discord.svg" alt="Discord" />
+                </a>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://stx.city/bonding-curve/SP3FA62NRKY41QZEXB787Y53XVSRV7N3TJ3F8GZ45.kanecomplain-stxcity-dex/SP3FA62NRKY41QZEXB787Y53XVSRV7N3TJ3F8GZ45.kanecomplain-stxcity/SP2BN9JN4WEG02QYVX5Y21VMB2JWV3W0KNHPH9R4P" target="_blank">Buy $KANCO</a>
+                <a href="kanecomplain_whitepaper_v1.pdf" download>Download Whitepaper</a>
+                <a href="#jingle">Listen to Jingle</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-icons">
+            <a href="https://x.com/kancodotstx" target="_blank" aria-label="X (Twitter)"><img src="x.svg" alt="X (Twitter)" /></a>
+            <a href="https://t.me/KaneComplain" target="_blank" aria-label="Telegram"><img src="telegram.svg" alt="Telegram" /></a>
+            <a href="https://discord.gg/gH7NKBVZ" target="_blank" aria-label="Discord"><img src="discord.svg" alt="Discord" /></a>
+        </div>
+        <p>&copy; 2024 KaneComplain ($KANCO). All rights reserved.</p>
+        <p>Disclaimer: This is not financial advice. Consider meme coins as gambling rather than investing.</p>
+    </footer>
+
 </body>
 </html>
